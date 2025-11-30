@@ -16,7 +16,7 @@ export const colors = {
   textPrimary: '#2E2739', // Dark text on light background
   textSecondary: '#827D88', // Medium gray - Secondary text
   textLight: '#F6F6FA', // Light text on dark background
-
+  textTitleColor: '#202C43',
   // Accent Colors
   accentBlue: '#61C3F2', // Light blue - Primary action/CTA
   accentTeal: '#15D2BC', // Vibrant teal - Accent
@@ -58,6 +58,7 @@ export const textColors = {
   primary: colors.textPrimary,
   secondary: colors.textSecondary,
   light: colors.textLight,
+  textTitleColor: colors.textTitleColor,
 } as const;
 
 export const accentColors = {
@@ -76,4 +77,3 @@ export const seatColors = {
 
 // Type export for TypeScript
 export type ColorName = keyof typeof colors;
-
