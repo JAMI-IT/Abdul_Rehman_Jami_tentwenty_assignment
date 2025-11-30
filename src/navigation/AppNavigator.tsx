@@ -6,74 +6,106 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, View, Text } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StyleSheet } from 'react-native';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
 import TabBarIcon from './TabBarIcon';
-import type { BottomTabParamList } from './types';
+import type { BottomTabParamList, RootStackParamList } from './types';
 
-// Import screens (placeholder components for now)
+// Import screens
 import DashboardScreen from '@screens/Dashboard';
 import WatchScreen from '@screens/Watch';
 import MediaLibraryScreen from '@screens/MediaLibrary';
 import MoreScreen from '@screens/More';
+import DetailsScreen from '@screens/Details';
+import TrailerScreen from '@screens/Trailer';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: colors.textLight,
+        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarItemStyle: styles.tabBarItem,
+      }}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon iconType="dashboard" focused={focused} />
+          ),
+          tabBarLabel: 'Dashboard',
+        }}
+      />
+      <Tab.Screen
+        name="Watch"
+        component={WatchScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon iconType="watch" focused={focused} />
+          ),
+          tabBarLabel: 'Watch',
+        }}
+      />
+      <Tab.Screen
+        name="MediaLibrary"
+        component={MediaLibraryScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon iconType="library" focused={focused} />
+          ),
+          tabBarLabel: 'Media Library',
+        }}
+      />
+      <Tab.Screen
+        name="More"
+        component={MoreScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon iconType="more" focused={focused} />
+          ),
+          tabBarLabel: 'More',
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarStyle: styles.tabBar,
-          tabBarActiveTintColor: colors.textLight,
-          tabBarInactiveTintColor: colors.textSecondary,
-          tabBarLabelStyle: styles.tabBarLabel,
-          tabBarItemStyle: styles.tabBarItem,
         }}
       >
-        <Tab.Screen
-          name="Dashboard"
-          component={DashboardScreen}
+        <Stack.Screen name="MainTabs" component={TabNavigator} />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
           options={{
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon iconType="dashboard" focused={focused} />
-            ),
-            tabBarLabel: 'Dashboard',
+            presentation: 'card',
+            animationTypeForReplace: 'push',
           }}
         />
-        <Tab.Screen
-          name="Watch"
-          component={WatchScreen}
+        <Stack.Screen
+          name="Trailer"
+          component={TrailerScreen}
           options={{
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon iconType="watch" focused={focused} />
-            ),
-            tabBarLabel: 'Watch',
+            presentation: 'modal',
+            animationTypeForReplace: 'push',
           }}
         />
-        <Tab.Screen
-          name="MediaLibrary"
-          component={MediaLibraryScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon iconType="library" focused={focused} />
-            ),
-            tabBarLabel: 'Media Library',
-          }}
-        />
-        <Tab.Screen
-          name="More"
-          component={MoreScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <TabBarIcon iconType="more" focused={focused} />
-            ),
-            tabBarLabel: 'More',
-          }}
-        />
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

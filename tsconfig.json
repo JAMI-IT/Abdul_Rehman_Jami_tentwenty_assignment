@@ -10,7 +10,6 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
       "@components/*": [
         "src/components/*"
@@ -24,6 +23,9 @@
       "@api/*": [
         "src/api/*"
       ],
+      "@store": [
+        "src/store/index"
+      ],
       "@store/*": [
         "src/store/*"
       ],
@@ -32,6 +34,9 @@
       ],
       "@types/*": [
         "src/types/*"
+      ],
+      "@theme": [
+        "src/theme/index"
       ],
       "@theme/*": [
         "src/theme/*"

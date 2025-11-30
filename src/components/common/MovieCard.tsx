@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
-import type { Movie } from '@types/movie';
+import type { Movie } from '@api/movieApi';
 
 interface MovieCardProps {
   movie: Movie;
@@ -37,7 +37,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
     <TouchableOpacity
       style={[styles.container, { width }]}
       onPress={onPress}
-      activeOpacity={0.8}>
+      activeOpacity={0.8}
+    >
       <View style={[styles.posterContainer, { height, width }]}>
         {imageUri ? (
           <Image
@@ -93,4 +94,3 @@ const styles = StyleSheet.create({
 });
 
 export default MovieCard;
-

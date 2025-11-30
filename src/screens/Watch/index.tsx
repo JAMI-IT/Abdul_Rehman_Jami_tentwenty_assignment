@@ -15,6 +15,8 @@ import {
   ListRenderItem,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
@@ -22,8 +24,12 @@ import LargeMovieCard from '@components/movie/LargeMovieCard';
 import Loader from '@components/common/Loader';
 import { useGetUpcomingMoviesQuery } from '@api/movieApi';
 import type { Movie } from '@api/movieApi';
+import type { RootStackParamList } from '@navigation/types';
+
+type WatchScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const WatchScreen: React.FC = () => {
+  const navigation = useNavigation<WatchScreenNavigationProp>();
   const { data, isLoading, isFetching, error, refetch } =
     useGetUpcomingMoviesQuery();
 
@@ -36,10 +42,7 @@ const WatchScreen: React.FC = () => {
   };
 
   const handleMoviePress = (movie: Movie) => {
-    // Navigate to details screen
-    console.log('Movie pressed:', movie.title);
-    // TODO: Navigate to Details screen
-    // navigation.navigate('Details', { movie });
+    navigation.navigate('Details', { movie });
   };
 
   const handleSearchPress = () => {

@@ -66,3 +66,4 @@ export const MoreIcon: React.FC<SvgIconProps> = ({ color, size = 18 }) => {
     </Svg>
   );
 };
+

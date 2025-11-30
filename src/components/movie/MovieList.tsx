@@ -6,7 +6,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, ListRenderItem } from 'react-native';
 import MovieCard from '@components/common/MovieCard';
-import type { Movie } from '@types/movie';
+import type { Movie } from '@api/movieApi';
 
 interface MovieListProps {
   movies: Movie[];
@@ -54,4 +54,3 @@ const styles = StyleSheet.create({
 });
 
 export default MovieList;
-

@@ -24,3 +24,4 @@ bundle exec pod install
 
 echo "✅ Clean complete! Now try: npm run ios"
 
+

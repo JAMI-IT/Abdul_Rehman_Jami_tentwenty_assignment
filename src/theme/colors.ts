@@ -77,3 +77,4 @@ export const seatColors = {
 
 // Type export for TypeScript
 export type ColorName = keyof typeof colors;
+

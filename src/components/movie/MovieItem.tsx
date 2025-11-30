@@ -4,16 +4,10 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
-import type { Movie } from '@types/movie';
+import type { Movie } from '@api/movieApi';
 
 interface MovieItemProps {
   movie: Movie;
@@ -29,7 +23,8 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, onPress }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={onPress}
-      activeOpacity={0.7}>
+      activeOpacity={0.7}
+    >
       <View style={styles.posterContainer}>
         {imageUri ? (
           <Image
@@ -53,9 +48,7 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, onPress }) => {
           </Text>
         )}
         {movie.vote_average > 0 && (
-          <Text style={styles.rating}>
-            ⭐ {movie.vote_average.toFixed(1)}
-          </Text>
+          <Text style={styles.rating}>⭐ {movie.vote_average.toFixed(1)}</Text>
         )}
       </View>
     </TouchableOpacity>
@@ -118,4 +111,3 @@ const styles = StyleSheet.create({
 });
 
 export default MovieItem;
-

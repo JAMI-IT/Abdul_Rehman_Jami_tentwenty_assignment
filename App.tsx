@@ -11,7 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import AppNavigator from '@navigation/AppNavigator';
 import { colors } from '@theme/colors';
-import { store } from '@store';
+import { store } from '@store/index';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

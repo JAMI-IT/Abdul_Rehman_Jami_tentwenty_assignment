@@ -4,7 +4,7 @@
  */
 
 import { NavigatorScreenParams } from '@react-navigation/native';
-import type { Movie } from '@types/movie';
+import type { Movie } from '@api/movieApi';
 
 export type BottomTabParamList = {
   Dashboard: undefined;

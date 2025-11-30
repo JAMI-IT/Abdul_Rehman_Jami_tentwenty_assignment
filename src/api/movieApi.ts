@@ -26,6 +26,26 @@ export interface MovieVideo {
 export interface MovieDetails extends Movie {
   runtime: number;
   genres: { id: number; name: string }[];
+  tagline?: string;
+  production_companies?: Array<{
+    id: number;
+    name: string;
+    logo_path: string | null;
+  }>;
+}
+
+export interface MovieImage {
+  file_path: string;
+  width: number;
+  height: number;
+  aspect_ratio: number;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface MovieImagesResponse {
+  backdrops: MovieImage[];
+  posters: MovieImage[];
 }
 
 export const tmdbApi = createApi({
@@ -43,6 +63,9 @@ export const tmdbApi = createApi({
     getMovieVideos: builder.query<{ results: MovieVideo[] }, number>({
       query: id => `movie/${id}/videos?api_key=${API_KEY}`,
     }),
+    getMovieImages: builder.query<MovieImagesResponse, number>({
+      query: id => `movie/${id}/images?api_key=${API_KEY}`,
+    }),
     searchMovies: builder.query<{ results: Movie[] }, string>({
       query: query => `search/movie?api_key=${API_KEY}&query=${query}`,
     }),
@@ -53,5 +76,6 @@ export const {
   useGetUpcomingMoviesQuery,
   useGetMovieDetailsQuery,
   useGetMovieVideosQuery,
+  useGetMovieImagesQuery,
   useSearchMoviesQuery,
 } = tmdbApi;
