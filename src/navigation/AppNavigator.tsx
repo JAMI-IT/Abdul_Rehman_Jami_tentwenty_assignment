@@ -3,26 +3,26 @@
  * Main navigation configuration with bottom tabs
  */
 
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import TabBarIcon from './TabBarIcon';
 import type { BottomTabParamList, RootStackParamList } from './types';
 
 // Import screens
 import DashboardScreen from '@screens/Dashboard';
-import WatchScreen from '@screens/Watch';
+import DetailsScreen from '@screens/Details';
 import MediaLibraryScreen from '@screens/MediaLibrary';
 import MoreScreen from '@screens/More';
-import DetailsScreen from '@screens/Details';
-import TrailerScreen from '@screens/Trailer';
+import SearchScreen from '@screens/Search';
 import SeatScreen from '@screens/Seat';
 import SeatSelectionScreen from '@screens/SeatSelection';
-import SearchScreen from '@screens/Search';
+import TrailerScreen from '@screens/Trailer';
+import WatchScreen from '@screens/Watch';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: colors.primary,
     borderTopWidth: 0,
-    height: 70,
+    height: 75,
     paddingBottom: 30,
     paddingTop: 3,
     borderRadius: 20,

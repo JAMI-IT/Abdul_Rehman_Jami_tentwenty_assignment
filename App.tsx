@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { Platform, StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import AppNavigator from '@navigation/AppNavigator';
@@ -15,13 +15,13 @@ import { store } from '@store/index';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
+  const activeEdges = Platform.OS === 'ios' ? ['top'] : ['top', 'bottom'];
   return (
     <Provider store={store}>
-    <SafeAreaProvider>
+      <SafeAreaProvider>
         <SafeAreaView
           style={{ flex: 1, backgroundColor: colors.background }}
-          edges={['top', 'bottom']}
+          edges={activeEdges}
         >
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
           />
           <AppNavigator />
         </SafeAreaView>
-    </SafeAreaProvider>
+      </SafeAreaProvider>
     </Provider>
   );
 }
