@@ -11,12 +11,16 @@ export const colors = {
   // Background Colors
   background: '#F6F6FA', // Light gray/off-white - Light background
   backgroundSecondary: '#DBDBDF', // Light gray - Secondary background/divider
+  silverGrey: '#9c98a21a',
+  white: '#ffff',
 
   // Text Colors
   textPrimary: '#2E2739', // Dark text on light background
   textSecondary: '#827D88', // Medium gray - Secondary text
   textLight: '#F6F6FA', // Light text on dark background
   textTitleColor: '#202C43',
+  textGrey: '#8F8F8F',
+
   // Accent Colors
   accentBlue: '#61C3F2', // Light blue - Primary action/CTA
   accentTeal: '#15D2BC', // Vibrant teal - Accent
@@ -29,25 +33,11 @@ export const colors = {
   seatVIP: '#564CA3', // Deep purple - VIP seats
   seatUnavailable: '#827D88', // Medium gray - Not available
 
-  // Status Colors
-  success: '#15D2BC', // Teal
-  error: '#E26CA5', // Pink
-  warning: '#CD9D0F', // Gold
-
-  // Border & Divider
+  // Border
   border: '#DBDBDF', // Light gray
-  divider: '#DBDBDF', // Light gray
-
-  // Overlay
-  overlay: 'rgba(46, 39, 57, 0.8)', // Primary with opacity
 } as const;
 
 // Export individual color groups for easier access
-export const primaryColors = {
-  dark: colors.primary,
-  light: colors.primaryLight,
-} as const;
-
 export const backgroundColors = {
   light: colors.background,
   secondary: colors.backgroundSecondary,
@@ -59,6 +49,7 @@ export const textColors = {
   secondary: colors.textSecondary,
   light: colors.textLight,
   textTitleColor: colors.textTitleColor,
+  textGrey: colors.textGrey,
 } as const;
 
 export const accentColors = {
@@ -77,4 +68,3 @@ export const seatColors = {
 
 // Type export for TypeScript
 export type ColorName = keyof typeof colors;
-

@@ -4,22 +4,21 @@
  * Uses YouTube IFrame player for YouTube videos
  */
 
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import YoutubePlayer from 'react-native-youtube-iframe';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import type { RootStackParamList } from '@navigation/types';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
-import type { RootStackParamList } from '@navigation/types';
+import React, { useState } from 'react';
+import {
+  Dimensions,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -50,7 +49,7 @@ const TrailerScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={[]}>
+    <View style={styles.container}>
       <StatusBar hidden />
       <View style={styles.container}>
         {/* Video Player */}
@@ -91,7 +90,7 @@ const TrailerScreen: React.FC = () => {
           </Text>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

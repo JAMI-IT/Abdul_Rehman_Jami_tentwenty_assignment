@@ -44,7 +44,8 @@ const LargeMovieCard: React.FC<LargeMovieCardProps> = ({ movie, onPress }) => {
     <TouchableOpacity
       style={styles.container}
       onPress={onPress}
-      activeOpacity={0.9}>
+      activeOpacity={0.9}
+    >
       <View style={styles.card}>
         {imageUri ? (
           <Image
@@ -114,14 +115,15 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     position: 'absolute',
+
     bottom: 0,
     left: 0,
     right: 0,
     padding: 16,
   },
   title: {
-    fontFamily: fonts.bold,
-    fontSize: fonts.sizes.xl,
+    fontFamily: fonts.semiBold,
+    fontSize: fonts.sizes.lg,
     color: colors.textLight,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 0, height: 1 },
@@ -130,4 +132,3 @@ const styles = StyleSheet.create({
 });
 
 export default LargeMovieCard;
-

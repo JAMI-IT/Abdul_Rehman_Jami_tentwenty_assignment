@@ -14,7 +14,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -26,7 +26,6 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -43,8 +42,6 @@ const DetailsScreen: React.FC = () => {
   const route = useRoute<DetailsScreenRouteProp>();
   const { movie } = route.params;
 
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
   const { data: movieDetails, isLoading: loadingDetails } =
     useGetMovieDetailsQuery(movie.id);
 
@@ -52,9 +49,7 @@ const DetailsScreen: React.FC = () => {
     movie.id,
   );
 
-  const { data: imagesData, isLoading: loadingImages } = useGetMovieImagesQuery(
-    movie.id,
-  );
+  const { data: imagesData } = useGetMovieImagesQuery(movie.id);
 
   const backdropImage =
     imagesData?.backdrops?.[0]?.file_path || movie.backdrop_path;
@@ -77,8 +72,11 @@ const DetailsScreen: React.FC = () => {
 
   const handleGetTickets = () => {
     // Navigate to seat selection
-    console.log('Get Tickets pressed');
-    // TODO: Navigate to Seat screen
+    navigation.navigate('Seat', {
+      movie: movieDetails || movie,
+      showtime: '12:30',
+      date: movieDetails?.release_date || movie.release_date,
+    });
   };
 
   const formatReleaseDate = (dateString: string) => {
@@ -99,128 +97,117 @@ const DetailsScreen: React.FC = () => {
   ];
 
   if (loadingDetails) {
-    return (
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <Loader message="Loading movie details..." />
-      </SafeAreaView>
-    );
+    return <Loader message="Loading movie details..." />;
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header with Back Button */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-            activeOpacity={0.7}
-          >
-            <Icon name="arrow-back" size={24} color={colors.textLight} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Watch</Text>
-          <View style={styles.headerSpacer} />
-        </View>
+    <ScrollView
+      style={styles.scrollView}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Header with Back Button */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+          activeOpacity={0.7}
+        >
+          <Icon name="arrow-back" size={24} color={colors.textLight} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Watch</Text>
+        <View style={styles.headerSpacer} />
+      </View>
 
-        {/* Movie Banner */}
-        <View style={styles.bannerContainer}>
-          {backdropUri ? (
-            <Image
-              source={{ uri: backdropUri }}
-              style={styles.bannerImage}
-              resizeMode="cover"
-            />
-          ) : (
-            <View style={[styles.bannerImage, styles.placeholderBanner]} />
-          )}
-          <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,0.7)', 'rgba(0,0,0,0.95)']}
-            style={styles.bannerGradient}
+      {/* Movie Banner */}
+      <View style={styles.bannerContainer}>
+        {backdropUri ? (
+          <Image
+            source={{ uri: backdropUri }}
+            style={styles.bannerImage}
+            resizeMode="cover"
           />
+        ) : (
+          <View style={[styles.bannerImage, styles.placeholderBanner]} />
+        )}
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.7)', 'rgba(0,0,0,0.95)']}
+          style={styles.bannerGradient}
+        />
 
-          {/* Movie Title and Date */}
-          <View style={styles.bannerContent}>
-            <Text style={styles.movieTitle}>
-              {movieDetails?.title || movie.title}
+        {/* Movie Title and Date */}
+        <View style={styles.bannerContent}>
+          <Text numberOfLines={2} style={styles.movieTitle}>
+            {movieDetails?.title || movie.title}
+          </Text>
+          {movieDetails?.release_date && (
+            <Text numberOfLines={2} style={styles.releaseDate}>
+              In Theaters {formatReleaseDate(movieDetails.release_date)}
             </Text>
-            {movieDetails?.release_date && (
-              <Text style={styles.releaseDate}>
-                In Theaters {formatReleaseDate(movieDetails.release_date)}
-              </Text>
-            )}
-
-            {/* Action Buttons */}
-            <View style={styles.actionButtons}>
-              <TouchableOpacity
-                style={styles.getTicketsButton}
-                onPress={handleGetTickets}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.getTicketsText}>Get Tickets</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.watchTrailerButton}
-                onPress={handleWatchTrailer}
-                activeOpacity={0.8}
-                disabled={!trailerVideo || loadingVideos}
-              >
-                {loadingVideos ? (
-                  <ActivityIndicator color={colors.textLight} size="small" />
-                ) : (
-                  <>
-                    <Icon
-                      name="play-arrow"
-                      size={20}
-                      color={colors.textLight}
-                    />
-                    <Text style={styles.watchTrailerText}>Watch Trailer</Text>
-                  </>
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* Movie Details Section */}
-        <View style={styles.detailsSection}>
-          {/* Genres */}
-          {movieDetails?.genres && movieDetails.genres.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Genres</Text>
-              <View style={styles.genresContainer}>
-                {movieDetails.genres.map((genre, index) => (
-                  <View
-                    key={genre.id}
-                    style={[
-                      styles.genreTag,
-                      {
-                        backgroundColor:
-                          genreColors[index % genreColors.length],
-                      },
-                    ]}
-                  >
-                    <Text style={styles.genreText}>{genre.name}</Text>
-                  </View>
-                ))}
-              </View>
-            </View>
           )}
 
-          {/* Overview */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Overview</Text>
-            <Text style={styles.overviewText}>
-              {movieDetails?.overview || movie.overview}
-            </Text>
+          {/* Action Buttons */}
+          <View style={styles.actionButtons}>
+            <TouchableOpacity
+              style={styles.getTicketsButton}
+              onPress={handleGetTickets}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.getTicketsText}>Get Tickets</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.watchTrailerButton}
+              onPress={handleWatchTrailer}
+              activeOpacity={0.8}
+              disabled={!trailerVideo || loadingVideos}
+            >
+              {loadingVideos ? (
+                <ActivityIndicator color={colors.textLight} size="small" />
+              ) : (
+                <>
+                  <Icon name="play-arrow" size={20} color={colors.textLight} />
+                  <Text style={styles.watchTrailerText}>Watch Trailer</Text>
+                </>
+              )}
+            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+
+      {/* Movie Details Section */}
+      <View style={styles.detailsSection}>
+        {/* Genres */}
+        {movieDetails?.genres && movieDetails.genres.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Genres</Text>
+            <View style={styles.genresContainer}>
+              {movieDetails.genres.map((genre, index) => (
+                <View
+                  key={genre.id}
+                  style={[
+                    styles.genreTag,
+                    {
+                      backgroundColor: genreColors[index % genreColors.length],
+                    },
+                  ]}
+                >
+                  <Text style={styles.genreText}>{genre.name}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Overview */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Overview</Text>
+          <Text style={styles.overviewText}>
+            {movieDetails?.overview || movie.overview}
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -288,13 +275,14 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   movieTitle: {
-    fontFamily: fonts.bold,
+    fontFamily: fonts.semiBold,
     fontSize: fonts.sizes.xxxl,
     color: colors.accentGold,
     marginBottom: 8,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
+    textAlign: 'center',
   },
   releaseDate: {
     fontFamily: fonts.regular,
@@ -314,7 +302,7 @@ const styles = StyleSheet.create({
   getTicketsButton: {
     flex: 1,
     backgroundColor: colors.accentBlue,
-    paddingVertical: 14,
+    height: 50,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
@@ -322,14 +310,14 @@ const styles = StyleSheet.create({
   },
   getTicketsText: {
     fontFamily: fonts.semiBold,
-    fontSize: fonts.sizes.md,
+    fontSize: fonts.sizes.sm,
     color: colors.textLight,
   },
   watchTrailerButton: {
     flex: 1,
     borderWidth: 1,
     borderColor: colors.textLight,
-    paddingVertical: 14,
+    height: 50,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
@@ -339,7 +327,7 @@ const styles = StyleSheet.create({
   },
   watchTrailerText: {
     fontFamily: fonts.semiBold,
-    fontSize: fonts.sizes.md,
+    fontSize: fonts.sizes.sm,
     color: colors.textLight,
   },
   detailsSection: {
@@ -351,9 +339,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionTitle: {
-    fontFamily: fonts.bold,
-    fontSize: fonts.sizes.lg,
-    color: colors.textPrimary,
+    fontFamily: fonts.primary,
+    fontSize: fonts.sizes.md,
+    color: colors.textTitleColor,
     marginBottom: 12,
   },
   genresContainer: {
@@ -363,18 +351,20 @@ const styles = StyleSheet.create({
   },
   genreTag: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    height: 34,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 20,
   },
   genreText: {
     fontFamily: fonts.semiBold,
-    fontSize: fonts.sizes.sm,
+    fontSize: fonts.sizes.xs,
     color: colors.textLight,
   },
   overviewText: {
     fontFamily: fonts.regular,
-    fontSize: fonts.sizes.md,
-    color: colors.textSecondary,
+    fontSize: fonts.sizes.xs,
+    color: colors.textGrey,
     lineHeight: fonts.sizes.md * 1.5,
   },
 });

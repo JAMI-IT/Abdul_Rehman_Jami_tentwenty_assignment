@@ -4,27 +4,26 @@
  * Fetches upcoming movies from TMDB API
  */
 
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-  TouchableOpacity,
-  ListRenderItem,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import type { Movie } from '@api/movieApi';
+import { useGetUpcomingMoviesQuery } from '@api/movieApi';
+import Loader from '@components/common/Loader';
+import LargeMovieCard from '@components/movie/LargeMovieCard';
+import type { RootStackParamList } from '@navigation/types';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
-import LargeMovieCard from '@components/movie/LargeMovieCard';
-import Loader from '@components/common/Loader';
-import { useGetUpcomingMoviesQuery } from '@api/movieApi';
-import type { Movie } from '@api/movieApi';
-import type { RootStackParamList } from '@navigation/types';
+import React from 'react';
+import {
+  FlatList,
+  ListRenderItem,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type WatchScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -46,9 +45,7 @@ const WatchScreen: React.FC = () => {
   };
 
   const handleSearchPress = () => {
-    // Navigate to search screen
-    console.log('Search pressed');
-    // TODO: Navigate to Search screen
+    navigation.navigate('Search');
   };
 
   const renderMovieItem: ListRenderItem<Movie> = ({ item }) => (
@@ -57,15 +54,15 @@ const WatchScreen: React.FC = () => {
 
   if (loading && movies.length === 0) {
     return (
-      <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.container} edges={['top']}>
         <Loader message="Loading upcoming movies..." />
-      </SafeAreaView>
+      </View>
     );
   }
 
   if (error) {
     return (
-      <SafeAreaView style={styles.container} edges={['top']}>
+      <View style={styles.container}>
         <View style={styles.errorContainer}>
           <Text style={styles.errorText}>
             Failed to load movies. Please try again.
@@ -74,12 +71,12 @@ const WatchScreen: React.FC = () => {
             <Text style={styles.retryButtonText}>Retry</Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Watch</Text>
@@ -114,14 +111,14 @@ const WatchScreen: React.FC = () => {
           ) : null
         }
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.silverGrey,
   },
   header: {
     flexDirection: 'row',

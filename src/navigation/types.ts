@@ -18,6 +18,8 @@ export type RootStackParamList = {
   Details: { movie: Movie };
   Trailer: { videoKey: string; movieTitle: string };
   Seat: { movie: Movie; showtime: string; date: string };
+  SeatSelection: { movie: Movie; showtime: string; date: string };
+  Search: undefined;
 };
 
 declare global {
@@ -25,4 +27,3 @@ declare global {
     interface RootParamList extends RootStackParamList {}
   }
 }
-

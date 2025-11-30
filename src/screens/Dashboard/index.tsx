@@ -3,19 +3,16 @@
  * Main dashboard/home screen
  */
 
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@theme/colors';
 import { fonts } from '@theme/fonts';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 const DashboardScreen: React.FC = () => {
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Dashboard</Text>
-      </View>
-    </SafeAreaView>
+    <View style={styles.content}>
+      <Text style={styles.title}>Dashboard</Text>
+    </View>
   );
 };
 
@@ -37,5 +34,3 @@ const styles = StyleSheet.create({
 });
 
 export default DashboardScreen;
-
-

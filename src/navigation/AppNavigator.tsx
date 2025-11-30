@@ -20,6 +20,9 @@ import MediaLibraryScreen from '@screens/MediaLibrary';
 import MoreScreen from '@screens/More';
 import DetailsScreen from '@screens/Details';
 import TrailerScreen from '@screens/Trailer';
+import SeatScreen from '@screens/Seat';
+import SeatSelectionScreen from '@screens/SeatSelection';
+import SearchScreen from '@screens/Search';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -105,6 +108,30 @@ const AppNavigator: React.FC = () => {
             animationTypeForReplace: 'push',
           }}
         />
+        <Stack.Screen
+          name="Seat"
+          component={SeatScreen}
+          options={{
+            presentation: 'card',
+            animationTypeForReplace: 'push',
+          }}
+        />
+        <Stack.Screen
+          name="SeatSelection"
+          component={SeatSelectionScreen}
+          options={{
+            presentation: 'card',
+            animationTypeForReplace: 'push',
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            presentation: 'card',
+            animationTypeForReplace: 'push',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -114,10 +141,12 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: colors.primary,
     borderTopWidth: 0,
-    height: 90,
+    height: 70,
     paddingBottom: 30,
-    paddingTop: 10,
+    paddingTop: 3,
     borderRadius: 20,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
     position: 'absolute',
     elevation: 10,
     shadowColor: '#000',

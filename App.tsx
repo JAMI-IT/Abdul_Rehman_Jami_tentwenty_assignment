@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import AppNavigator from '@navigation/AppNavigator';
 import { colors } from '@theme/colors';
@@ -18,13 +18,18 @@ function App(): React.JSX.Element {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={colors.primary}
-        />
-        <AppNavigator />
-      </SafeAreaProvider>
+    <SafeAreaProvider>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: colors.background }}
+          edges={['top', 'bottom']}
+        >
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={colors.primary}
+          />
+          <AppNavigator />
+        </SafeAreaView>
+    </SafeAreaProvider>
     </Provider>
   );
 }

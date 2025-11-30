@@ -20,7 +20,7 @@ interface TabBarIconProps {
 
 const TabBarIcon: React.FC<TabBarIconProps> = ({ iconType, focused }) => {
   const iconColor = focused ? colors.textLight : colors.textSecondary;
-  const iconSize = 24;
+  const iconSize = 18;
 
   const renderIcon = () => {
     switch (iconType) {
